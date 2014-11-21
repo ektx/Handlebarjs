@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Helpers - handlebarsjs</title>
+		<script src="lib/jquery-1.11.1.min.js"></script>
+		<script src="lib/handlebars-v1.3.0.js"></script>
+	</head>
+	<body>
+		<h1>Helpers 自定义方法</h1>
+		<h2>使用Helpers用户可以操作handlebars模板中的数据，添加相应的逻辑等等。</h2>
+		<b>Helpers相当于闭包函数，对原有的方法进行扩充或是单个方面加强操作</b>
+
+		<!-- 模板存放位置 清单列表模板 -->
+		<div id="list"></div>
+		
+		<!-- 声名模板 -->
+		<script id="people-template" type="text/x-handlebars-template">
+		<!--// 基础表达示 -->
+		{{#people}}
+			<div class="person">
+				<h2>{{first_name}} {{last_name}}</h2>
+				<!--// 自定义 formatPhoneNumberphone 方法 -->
+				<div class="phone">{{formatPhoneNumber phone}}</div>
+				<div class="email"><a href="mailto:{{email}}">{{email}}</a></div>
+				<div class="since">User since {{member_since}}</div>
+			</div>
+		{{/people}}
+		</script>
+
+		<!-- 数据调用 -->
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				// 选择模板
+				var template = Handlebars.compile($("#people-template").html());
+
+				// helper
+				Handlebars.registerHelper("formatPhoneNumber", function(phoneNumber) {
+					phoneNumber = phoneNumber.toString();
+					return "(" + phoneNumber.substr(0,3) + ") " + phoneNumber.substr(3,3) + "-" + phoneNumber.substr(6,4);
+				});
+
+				// 模拟数据
+				var data = {
+					people: [
+							{ first_name: "Alan", last_name: "Johnson", phone: "1234567890", email: "alan@test.com", member_since: "Mar 25, 2011" },
+							{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" },
+							{ first_name: "Nick", last_name: "Pettit", phone: "9836592272", email: "nick@test.com", member_since: "Apr 9, 2009" },
+							{ first_name: "Jim", last_name: "Hoskins", phone: "7284927150", email: "jim@test.com", member_since: "May 21, 2010" },
+							{ first_name: "Ryan", last_name: "Carson", phone: "8263729224", email: "ryan@test.com", member_since: "Nov 1, 2008" }
+					]
+				};
+
+				$("#list").html(template(data));
+			})
+		</script>
+	</body>
+</html>

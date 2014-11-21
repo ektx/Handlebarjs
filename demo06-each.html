@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Each Helpers - handlebarsjs</title>
+		<script src="lib/jquery-1.11.1.min.js"></script>
+		<script src="lib/handlebars-v1.3.0.js"></script>
+	</head>
+	<body>
+		<h1>Each Helpers</h1>
+		<h2>Each helpers使用方法很简单，只需要在template中添加{{if}}, 如果有else，也一样，添加{{else}}。Template中代码如下：</h2>
+		<b>它的作用是用于处理某些不确定的元素的显示处理，它可能存在或是不存在</b>
+
+		<!-- 模板存放位置 清单列表模板 -->
+		<div id="list"></div>
+
+		<!-- 声名模板 -->
+		<script id="people-template" type="text/x-handlebars-template">
+		// 基础表达示(此注释会被输出)
+		// {{this}} 无法支持大的数据
+		{{#each people}}
+			<div class="person">
+				
+			</div>
+		{{/each}}
+		</script>
+
+
+<!-- 奖金池 -->
+<script id="TPL_DispalyChaSalInfos" type="text/x-handlebars-template">
+<thead>
+
+
+	<tr>
+		<th>操作时间</th>
+		<th>操作金额</th>
+		<th>操作类型</th>
+		<th>奖金池科目</th>
+		<th>奖金池余额</th>
+		<th>备注</th>
+	</tr>
+</thead>
+<tbody>
+	{{#each rows}}
+	<tr>
+		<td>{{ACTION_DATE}}</td>
+		<td>{{LASTMONEY}}</td>
+		<td>{{ACTION_TYPE}}</td>
+		<td>{{AWARDPOOLNAME}}</td>
+		<td>{{CURRENTMONEY}}</td>
+		<td>{{CAL_REASON}}</td>
+	</tr>
+	{{/each}}
+
+</tbody>
+</script>
+
+<!-- 业务大类 -->
+<script id="TPL_DispalyALLChaSalInfos" type="text/x-handlebars-template">
+<thead>
+
+
+	<tr>
+		<th>业务号码</th>
+		<th>业务要素</th>
+		<th>业务大类</th>
+		<th>地市科目</th>
+		<th>酬金科目</th>
+		<th>酬金</th>
+		<th>受理时间</th>
+		<th>原因</th>
+	</tr>
+</thead>
+<tbody>
+	{{#each rows}}
+	<tr>
+		<td>{{BIZ_DTL_ID}}</td>
+		<td>{{BIZ_FACTORY}}</td>
+		<td>{{BUSINESS_NAME}}</td>
+		<td>{{TYPE_NAME}}</td>
+		<td>{{ACC_CODE}}</td>
+		<td>{{X_RESULT}}</td>
+		<td>{{BIZ_DATE}}</td>
+		<td>{{X_REASON}}</td>
+	</tr>
+	{{/each}}
+
+</tbody>
+</script>
+
+
+		<!-- 数据调用 -->
+		<script tyep="text/javascript">
+		$(document).ready(function() {
+			// 选择模板
+			var template = Handlebars.compile($("#TPL_DispalyALLChaSalInfos").html());
+
+			// 模拟数据
+			var data = {
+				people: [
+					{ title: "first people: ", author: {first_name: "Alan", last_name: "Johnson"},  },
+					{ title: "second people: " },
+					{ title: "fourth people: ", author: {first_name: "Asn", last_name: "Smith"},  },
+				]
+			};
+
+			// 模拟数据
+			var data3 = {
+				people: [
+					{ 
+						title: "first people: ", 
+						author: {first_name: "Alan", last_name: "Johnson"},  },
+					{ title: "second people: " },
+					{ title: "fourth people: ", author: {first_name: "Asn", last_name: "Smith"},  },
+				]
+			};
+
+			var data2 = {
+				people: [
+				{ first_name: "Alan", last_name: "Johnson", phone: "1234567890", email: "alan@test.com", member_since: "Mar 25, 2011" },
+				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" },
+				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" },
+				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" },
+				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" }
+				]
+			};
+
+			var data4 = {
+						"hasTable":"true",
+						"rows":[
+						        {
+						        	"ACTION_DATE":"20140506",
+						    		"LASTMONEY":"-100",
+						    		"ACTION_TYPE":"出账",
+						    		"AWARDPOOLNAME":"长期考核激励",
+						    		"CURRENTMONEY":"200",
+						    		"CAL_REASON":"？？"
+						        },
+						        {
+						        	"ACTION_DATE":"20140506",
+						    		"LASTMONEY":"-100",
+						    		"ACTION_TYPE":"出账",
+						    		"AWARDPOOLNAME":"长期考核激励",
+						    		"CURRENTMONEY":"200",
+						    		"CAL_REASON":"？？"
+						        },
+						        {
+						        	"ACTION_DATE":"20140506",
+						    		"LASTMONEY":"-100",
+						    		"ACTION_TYPE":"出账",
+						    		"AWARDPOOLNAME":"长期考核激励",
+						    		"CURRENTMONEY":"200",
+						    		"CAL_REASON":"？？"
+						        }
+						        ]
+				};
+				
+				// 业务大类 json[此json存在无法显示问题，未知情况-_-|||]
+				var data5 = {
+						"hasTable":"true",
+						"rows":[
+						        {
+						    		"BIZ_DTL_ID":"15988165671",
+						    		"BIZ_FACTORY":"100",
+						    		"BUSINESS_NAME":"放号类",
+						    		"TYPE_NAME":"基础放号",
+						    		"ACC_CODE":"放号类",
+						    		"X_RESULT":"50",
+						    		"BIZ_DATE":"100",
+						    		"X_REASON":"90"
+						        },
+						        {
+						    		"BIZ_DTL_ID":"15988165671",
+						    		"BIZ_FACTORY":"100",
+						    		"BUSINESS_NAME":"放号类",
+						    		"TYPE_NAME":"基础放号",
+						    		"ACC_CODE":"放号类",
+						    		"X_RESULT":"50",
+						    		"BIZ_DATE":"100",
+						    		"X_REASON":"90"
+						        },
+						        {
+						    		"BIZ_DTL_ID":"15988165671",
+						    		"BIZ_FACTORY":"100",
+						    		"BUSINESS_NAME":"放号类",
+						    		"TYPE_NAME":"基础放号",
+						    		"ACC_CODE":"放号类",
+						    		"X_RESULT":"50",
+						    		"BIZ_DATE":"100",
+						    		"X_REASON":"90"
+						        }
+						        ]
+				};
+
+				// 输出值
+				//$("#DispalyChaSalInfos_MOD").html(template(data4));
+				//$("#DispalyChaSalInfos_MOD").html(template(data5));
+				
+			// 输出值
+			$("#list").html(template(data5));
+
+		})
+		</script>
+	</body>
+</html>

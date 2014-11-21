@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>width - handlebarsjs</title>
+		<script src="lib/jquery-1.11.1.min.js"></script>
+		<script src="lib/handlebars-v1.3.0.js"></script>
+	</head>
+	<body>
+		<h1>with 操作</h1>
+		<h2>块表达式的使用示例</h2>
+		<b>with 可以对相对复杂的数据进行再次的加处理！</b>
+
+		<!-- 模板存放位置 清单列表模板 -->
+		<div id="list"></div>
+
+		<!-- js 格式化模板 -->
+		<script id="people-template" type="text/x-handlebars-template">
+		<!--// 基础表达示(此注释会被输出)-->
+		{{#people}}
+			<div class="person">
+			<p>{{title}}
+			{{#with author}}
+				by {{first_name}} {{last_name}}
+			{{/with}}
+			</div>
+		{{/people}}
+		</script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				// 选择模板样式
+				var template = Handlebars.compile($("#people-template").html());
+
+				var data = {
+					// 使用方法
+					people: [
+						{ title: "first people: ", author: {first_name: "Alan", last_name: "Johnson"},  },
+						{ title: "second people: ", author: {first_name: "Jack", last_name: "een"},  },
+						{ title: "fourth people: ", author: {first_name: "Asn", last_name: "Smith"},  },
+						{ title: "fourth people: " }
+					]
+				};
+
+				// 传出值
+				$("#list").html(template(data));
+			})
+		</script>
+	</body>
+</html>

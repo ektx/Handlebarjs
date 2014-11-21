@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>IF Helpers - handlebarsjs</title>
+		<script src="lib/jquery-1.11.1.min.js"></script>
+		<script src="lib/handlebars-v1.3.0.js"></script>
+	</head>
+	<body>
+		<h1>IF Helpers</h1>
+		<h2>if helpers使用方法很简单，只需要在template中添加{{if}}, 如果有else，也一样，添加{{else}}。Template中代码如下：</h2>
+		<b>它的作用是用于处理某些不确定的元素的显示处理，它可能存在或是不存在</b>
+
+		<!-- 模板存放位置 清单列表模板 -->
+		<div id="list"></div>
+
+		<!-- 声名模板 -->
+		<script id="people-template" type="text/x-handlebars-template">
+		<!--  基础表达示 -->
+		{{#people}}
+			<div class="person">
+			<p>{{title}}
+			{{#if author}}
+				{{#with author}}
+				by {{first_name}} {{last_name}}</p>
+				{{/with}}
+			{{else}}
+				Unknown Author</p>
+			{{/if}}
+			</div>
+		{{/people}}
+		</script>
+
+		<!-- 数据调用 -->
+		<script tyep="text/javascript">
+		$(document).ready(function() {
+			// 选择模板
+			var template = Handlebars.compile($("#people-template").html());
+
+			// 模拟数据
+			var data = {
+				people: [
+					{ title: "first people: ", author: {first_name: "Alan", last_name: "Johnson"},  },
+					{ title: "second people: " },
+					{ title: "fourth people: ", author: {first_name: "Asn", last_name: "Smith"},  },
+				]
+			};
+
+			// 输出值
+			$("#list").html(template(data));
+
+		})
+		</script>
+	</body>
+</html>

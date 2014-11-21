@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Partials Helpers - handlebarsjs</title>
+		<script src="lib/jquery-1.11.1.min.js"></script>
+		<script src="lib/handlebars-v1.3.0.js"></script>
+	</head>
+	<body>
+		<h1>Partials Helpers</h1>
+		<h2>当你想要复用模板的一部分，或者将长模板分割成为多个模板方便维护时，partials就派上用场了。直接看代码比较直接，母模板定义如下：其中用>partials 来包含相应的子模板。</h2>
+
+		<!-- 模板存放位置 清单列表模板 -->
+		<div id="list"></div>
+
+		<!-- 声名模板 -->
+		<script id="people-template" type="text/x-handlebars-template">
+		<!--// 主模板 -->
+		{{#each people}}
+			{{> person}}
+			<hr>
+			{{> person}}
+			<hr>
+		{{/each}}
+		</script>
+		
+		<!-- 声名 person 子模板 -->
+		<script id="person-partical" type="text/x-handlebars-template">
+			<div class="person">
+				<h2>{{first_name}} {{last_name}}</h2>
+				<div class="phone">{{phone}}</div>
+				<div class="email"><a href="mailto:{{email}}">{{email}}</a></div>
+				<div class="since">User since {{member_since}}</div>
+			</div>
+		</script>
+
+		<!-- 数据调用 -->
+		<script tyep="text/javascript">
+		$(document).ready(function() {
+			// 选择模板
+			var template = Handlebars.compile($("#people-template").html());
+
+			// 添加局部变量
+			Handlebars.registerPartial("person", $("#person-partical").html());
+
+			// 模拟数据
+			var data = {
+				people: [
+					{ title: "first people: ", author: {first_name: "Alan", last_name: "Johnson"},  },
+					{ title: "second people: " },
+					{ title: "fourth people: ", author: {first_name: "Asn", last_name: "Smith"},  },
+				]
+			};
+
+			var data2 = {
+				people: [
+				{ first_name: "Alan", last_name: "Johnson", phone: "1234567890", email: "alan@test.com", member_since: "Mar 25, 2011" },
+				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" },
+				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" },
+				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" },
+				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" }
+				]
+			};
+			// 输出值
+			$("#list").html(template(data2));
+
+		})
+		</script>
+	</body>
+</html>
